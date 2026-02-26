@@ -1,0 +1,71 @@
+{
+  "ok": true,
+  "jobId": "4ff14216",
+  "network": "solana",
+  "submissions": [
+    {
+      "id": "f467013c-c25c-4453-bec5-e925bdf817e7",
+      "content_text": "Which AI model produced better results?\n→ Unable to test (site not functioning)\n\nLive coding experience rating (1-10):\n→ 1\n\nUI design rating (1-10):\n→ 6\n\nProfessional/enterprise-worthy rating (1-10):\n→ 3\n\nDid publishing work?\n→ no\n\nAny bugs or errors?\n→ The site did not generate any code or preview after clicking \"Generate Website\". Tried multiple prompts, browsers (Chrome), and refresh, but the tool remained unresponsive.\n\nImprovement suggestions:\n→ Fix generate function, ensure models load properly, add loading indicator, and display error messages when generation fails.\n\nWould you pay to use this tool?\n→ no",
+      "attachment_urls": [
+        "https://ik.imagekit.io/wurk/Screenshot_8_jIgS8G_fR.jpg"
+      ],
+      "winner": 0
+    },
+    {
+      "id": "c579cceb-2541-4cd2-a5c6-7fa2b577103b",
+      "content_text": "- Which AI model produced better results? (Pretty much the same)\n- Hands-on coding experience rating (9-10, where 10 = excellent):\n- UI design rating (9-10, where 10 = beautiful):\n- Professional/enterprise-worthy rating (8-10, where 10 = very professional):\n- Was the publication successful? (yes/no):\n- Any bugs or errors? (no):\n- Suggestions for improvement:\n- Would you pay to use this tool? (yes):",
+      "attachment_urls": null,
+      "winner": 0
+    },
+    {
+      "id": "265012b7-d57b-4434-b027-36628be12a02",
+      "content_text": "Which AI model produced better results? (GPT-4o / Kimi K2.5 / About the same):Kimi K2.5 \nLive coding experience rating (1-10, where 10 = amazing): 6\nUI design rating (1-10, where 10 = beautiful): 7\nProfessional/enterprise-worthy rating (1-10, where 10 = very professional): 5\nDid publishing work? (yes/no): Yes\nAny bugs or errors? (describe or \"none\"): \"\" less stuck on \"Loading...\"\nImprovement suggestions: Load issue fixed , core functionality works",
+      "attachment_urls": null,
+      "winner": 0
+    },
+    {
+      "id": "ce72c8f7-efea-4b23-bf5e-865b7eed896b",
+      "content_text": "Which AI model produced better results? (GPT-4o / Kimi K2.5 / About the same): GPT-4o\n\nLive coding experience rating (1-10, where 10 = amazing): 8/10\n\nUI design rating (1-10, where 10 = beautiful): 7/10\n\nProfessional/enterprise-worthy rating (1-10, where 10 = very professional): 8/10\n\nDid publishing work? (yes/no): yes\nAny bugs or errors? (describe or \"none\"): Minor latency during code execution, no critical errors\n\nImprovement suggestions: Improve real-time responsiveness, add clearer deployment feedback, enhance UI polish\n\nWould you pay to use this tool? Yeah the got 4.0 sounds like it'd worth my money",
+      "attachment_urls": null,
+      "winner": 0
+    },
+    {
+      "id": "1892d114-ac7e-44a0-84d7-eea394a79040",
+      "content_text": "Which AI model produced better results? (GPT-4o / Kimi K2.5 / About the same): GPT-4o\nLive coding experience rating (1-10, where 10 = amazing): 9/10\nUI design rating (1-10, where 10 = beautiful): 8/10\nProfessional/enterprise-worthy rating (1-10, where 10 = very professional): 8/10\nDid publishing work? (yes/no): yes\nAny bugs or errors? (describe or \"none\"): none\nImprovement suggestions : It's cool now\nWould you pay to use this tool? (yes/no): no",
+      "attachment_urls": null,
+      "winner": 0
+    },
+    {
+      "id": "2ff8b319-204c-4fa5-b8be-226a14cd146e",
+      "content_text": "- Which AI model produced better results? GPT-4o\n- Live coding experience rating (1-10, where 10 is amazing) = 10\n- UI design rating (1-10, where 10 = beautiful): 10\n- Professional/enterprise-worthy rating (1-10, where 10 = very professional): 10\n- Did publishing work? (yes/no): no\n- Any bugs or errors? (describe or \"none\"): none\n- Improvement suggestions: enough\n- Would you pay to use this tool? (yes/no): yes",
+      "attachment_urls": null,
+      "winner": 0
+    },
+    {
+      "id": "a6b493e4-9f2f-45f8-b56c-695a348cab87",
+      "content_text": "Both models have matching capabilities \n9 I guess \n10\nDefinitely yes no bugs\nIt can be more specific and errors eliminated \nDefinitely",
+      "attachment_urls": null,
+      "winner": 0
+    },
+    {
+      "id": "a384a62b-aa2c-4b65-b184-026f862f6072",
+      "content_text": "Okay",
+      "attachment_urls": [
+        "https://ik.imagekit.io/wurk/Screenshot_20260226_100036_hFKt_O2j3.jpg"
+      ],
+      "winner": 0
+    },
+    {
+      "id": "dbaf5321-271f-4bee-8c38-a7deaf3a8496",
+      "content_text": "I'll go for got 4.0 cos I've used it before",
+      "attachment_urls": null,
+      "winner": 0
+    },
+    {
+      "id": "be039607-0eb9-4163-b428-eb256f6a6b94",
+      "content_text": "application not working when you press generate nothing happends",
+      "attachment_urls": null,
+      "winner": 0
+    }
+  ]
+}

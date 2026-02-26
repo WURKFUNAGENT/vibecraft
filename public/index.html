@@ -458,7 +458,7 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
           </select>
         </div>
 
-        <button id="generateBtn" class="btn btn-primary">Generate Website</button>
+        <button id="generateBtn" class="btn btn-primary"><span id="genBtnText">Generate Website</span></button>
         <button id="publishBtn" class="btn btn-secondary" disabled>Publish to Web</button>
 
         <div class="status-bar" id="status">
@@ -660,6 +660,7 @@ async function generate() {
 
   publishResult.style.display = "none";
   generateBtn.disabled = true;
+  document.getElementById("genBtnText").textContent = "Generating...";
   publishBtn.disabled = true;
   isGenerating = true;
 
@@ -678,6 +679,8 @@ async function generate() {
   startElapsedTimer();
 
   try {
+    const controller = new AbortController();
+    const fetchTimeout = setTimeout(() => controller.abort(), 90000);
     const res = await fetch("/api/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -686,7 +689,8 @@ async function generate() {
         model: document.getElementById("model").value,
         existingCode: existingCode || undefined,
       }),
-    });
+      signal: controller.signal,
+    }).finally(() => clearTimeout(fetchTimeout));
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({ error: "Request failed" }));
@@ -747,10 +751,12 @@ async function generate() {
     flushQueue();
     stopElapsedTimer();
     updatePreview(getEditorContent());
-    setStatus("error", `Error: ${err.message}`);
+    const msg = err.name === "AbortError" ? "Generation timed out. Please try again with a simpler prompt." : `Error: ${err.message}`;
+    setStatus("error", msg);
     if (generatedCode) publishBtn.disabled = false;
   } finally {
     generateBtn.disabled = false;
+    document.getElementById("genBtnText").textContent = "Generate Website";
     isGenerating = false;
   }
 }
