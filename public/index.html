@@ -115,6 +115,7 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
+  -moz-appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 10px center;
@@ -237,7 +238,7 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 .editor-wrap .cm-editor { height: 100%; }
 .editor-wrap .cm-editor .cm-scroller { overflow: auto; }
 
-.preview-wrap { flex: 1; background: #fff; overflow: hidden; }
+.preview-wrap { flex: 1; background: #fff; overflow: hidden; border-left: 1px solid var(--border); }
 .preview-wrap iframe {
   width: 100%;
   height: 100%;
@@ -326,22 +327,22 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
   .sidebar {
     width: 100%;
     min-width: unset;
+    max-height: 40vh;
     border-right: none;
     border-bottom: 1px solid var(--border);
+    overflow-y: auto;
   }
   .sidebar-inner { padding: 12px; }
   .prompt-area { min-height: 80px; }
-  .workspace { flex-direction: column; }
-  .divider {
-    width: 100%;
-    height: 4px;
-    cursor: row-resize;
-  }
-  .editor-panel, .preview-panel { flex: 1; min-height: 200px; }
+  .workspace { flex-direction: column; flex: 1; min-height: 0; }
+  .divider { display: none; }
+  .editor-panel, .preview-panel { flex: 1; min-height: 0; }
+  .preview-panel { display: none; }
   .mobile-tabs {
     display: flex;
     border-bottom: 1px solid var(--border);
     background: var(--surface);
+    flex-shrink: 0;
   }
   .mobile-tab {
     flex: 1;
@@ -443,12 +444,22 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 </div>
 
 <!-- CodeMirror 6 from CDN -->
-<script src="https://cdn.jsdelivr.net/npm/@codemirror/state@6/dist/index.cjs" type="module"></script>
 <script type="module">
-import { EditorView, basicSetup } from "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/+esm";
-import { html } from "https://cdn.jsdelivr.net/npm/@codemirror/lang-html@6/+esm";
-import { oneDark } from "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6/+esm";
-import { EditorState } from "https://cdn.jsdelivr.net/npm/@codemirror/state@6/+esm";
+let EditorView, basicSetup, htmlLang, oneDark, EditorState;
+try {
+  const cm = await import("https://cdn.jsdelivr.net/npm/codemirror@6.0.1/+esm");
+  EditorView = cm.EditorView;
+  basicSetup = cm.basicSetup;
+  const htmlMod = await import("https://cdn.jsdelivr.net/npm/@codemirror/lang-html@6/+esm");
+  htmlLang = htmlMod.html;
+  const themeMod = await import("https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6/+esm");
+  oneDark = themeMod.oneDark;
+  const stateMod = await import("https://cdn.jsdelivr.net/npm/@codemirror/state@6/+esm");
+  EditorState = stateMod.EditorState;
+} catch (e) {
+  document.getElementById("editorWrap").innerHTML = '<div style="padding:20px;color:#ef4444;font-size:13px;">Failed to load code editor. Please refresh the page.</div>';
+  throw e;
+}
 
 // -- State --
 let editor;
@@ -475,7 +486,7 @@ function createEditor(doc = "") {
   editor = new EditorView({
     state: EditorState.create({
       doc,
-      extensions: [basicSetup, html(), oneDark, editorTheme],
+      extensions: [basicSetup, htmlLang(), oneDark, editorTheme],
     }),
     parent: document.getElementById("editorWrap"),
   });
@@ -777,50 +788,62 @@ function escapeHtml(str) {
   let startEditorW = 0;
   let startPreviewW = 0;
 
-  divider.addEventListener("mousedown", (e) => {
+  function startDrag(x) {
     dragging = true;
     divider.classList.add("active");
-    startX = e.clientX;
+    startX = x;
     startEditorW = editorPanel.offsetWidth;
     startPreviewW = previewPanel.offsetWidth;
     document.body.style.cursor = "col-resize";
     document.body.style.userSelect = "none";
-    e.preventDefault();
-  });
-
-  document.addEventListener("mousemove", (e) => {
+  }
+  function moveDrag(x) {
     if (!dragging) return;
-    const dx = e.clientX - startX;
+    const dx = x - startX;
     const totalW = startEditorW + startPreviewW;
     let newEditorW = startEditorW + dx;
     let newPreviewW = startPreviewW - dx;
     if (newEditorW < 200) { newEditorW = 200; newPreviewW = totalW - 200; }
     if (newPreviewW < 200) { newPreviewW = 200; newEditorW = totalW - 200; }
-    const editorFlex = newEditorW / totalW * 100;
-    const previewFlex = newPreviewW / totalW * 100;
-    editorPanel.style.flex = `${editorFlex}`;
-    previewPanel.style.flex = `${previewFlex}`;
-  });
-
-  document.addEventListener("mouseup", () => {
+    editorPanel.style.flex = `${newEditorW / totalW * 100}`;
+    previewPanel.style.flex = `${newPreviewW / totalW * 100}`;
+  }
+  function endDrag() {
     if (!dragging) return;
     dragging = false;
     divider.classList.remove("active");
     document.body.style.cursor = "";
     document.body.style.userSelect = "";
-  });
+  }
+
+  divider.addEventListener("mousedown", (e) => { startDrag(e.clientX); e.preventDefault(); });
+  document.addEventListener("mousemove", (e) => moveDrag(e.clientX));
+  document.addEventListener("mouseup", endDrag);
+  divider.addEventListener("touchstart", (e) => { startDrag(e.touches[0].clientX); e.preventDefault(); }, { passive: false });
+  document.addEventListener("touchmove", (e) => { if (dragging) moveDrag(e.touches[0].clientX); });
+  document.addEventListener("touchend", endDrag);
 })();
 
 // -- Mobile tabs --
+function isMobile() { return window.innerWidth <= 768; }
 document.querySelectorAll(".mobile-tab").forEach((tab) => {
   tab.addEventListener("click", () => {
+    if (!isMobile()) return;
     document.querySelectorAll(".mobile-tab").forEach((t) => t.classList.remove("active"));
     tab.classList.add("active");
     const target = tab.dataset.tab;
-    document.getElementById("editorPanel").style.display = target === "code" ? "flex" : "none";
-    document.getElementById("previewPanel").style.display = target === "preview" ? "flex" : "none";
-    document.getElementById("divider").style.display = "none";
+    const editorPanel = document.getElementById("editorPanel");
+    const previewPanel = document.getElementById("previewPanel");
+    editorPanel.style.display = target === "code" ? "flex" : "none";
+    previewPanel.style.display = target === "preview" ? "flex" : "none";
   });
+});
+window.addEventListener("resize", () => {
+  if (!isMobile()) {
+    document.getElementById("editorPanel").style.display = "";
+    document.getElementById("previewPanel").style.display = "";
+    document.getElementById("divider").style.display = "";
+  }
 });
 
 // -- Events --

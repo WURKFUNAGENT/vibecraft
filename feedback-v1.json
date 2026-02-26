@@ -1,0 +1,107 @@
+{
+  "submissions": [
+    {
+      "id": "045ed506-2904-4f26-ae75-17eeb62738e1",
+      "content_text": "its not working",
+      "attachment_urls": null,
+      "winner": 0
+    },
+    {
+      "id": "6d1931d9-f0e3-479a-9418-af715e53138c",
+      "content_text": "E",
+      "attachment_urls": [
+        "https://ik.imagekit.io/wurk/Screenshot_20260226-104004_eAd5DP2P7.jpg"
+      ],
+      "winner": 0
+    },
+    {
+      "id": "32d8710c-11f6-479e-bdbb-b3a46beec562",
+      "content_text": "Done",
+      "attachment_urls": [
+        "https://ik.imagekit.io/wurk/Screenshot_20260226-081346_IEXQqxEtv.jpg"
+      ],
+      "winner": 0
+    },
+    {
+      "id": "aa60ae7a-a790-4f8b-9415-c50204acee7c",
+      "content_text": "1.Which AI model produced better results? GPT-4o\n2.Live coding experience rating (1-10, where 10 = amazing): 8\n3.UI design rating (1-10, where 10 = beautiful): 7\n4.Professional/enterprise-worthy rating (1-10, where 10 = very professional): 7\n5.Did publishing work? yes\n6.Any bugs or errors? Minor layout spacing issues on mobile preview. One instance where live coding paused briefly before continuing. No major errors during publish.\n7.Improvement suggestions:\nImprove mobile responsiveness by default\nAdd pre-built professional templates (SaaS, agency, ecommerce)\nAllow manual code editing after AI generation\nAdd loading indicator clarity during live code generation\nImprove typography consistency\n8.Would you pay to use this tool? yes",
+      "attachment_urls": null,
+      "winner": 1
+    },
+    {
+      "id": "7cc6a071-9e75-4f35-8bce-9e0607bdc70f",
+      "content_text": "- About the same result\n- Live coding experience - 8\n-professionalism - 8\n- Didn't work for me\n- No bug of any sort\n- Improvement: Speed of processing should increase\n- Yes if the result suit my need",
+      "attachment_urls": null,
+      "winner": 1
+    },
+    {
+      "id": "c5ef80e8-aed5-4942-8ca6-aea477f59d44",
+      "content_text": "Gpt 4o produce better results                live coding looks good (8).                Ui coding(9).  Professional/enterprise-worthy rating (8).    \n- Did publishing work? (/no):               \nAny bugs or errors? A few error in generating coding and taking lot of time.          Would you pay to use this tool? Yes if you solve above error absolutely yes",
+      "attachment_urls": null,
+      "winner": 1
+    },
+    {
+      "id": "ad787dd1-def2-4edf-9869-eca30de021d9",
+      "content_text": "Which AI model produced better results?\n\nAbout the same\n- Live coding experience rating: 4\n- UI design rating : 4\n- Professional/enterprise-worthy : 6\n- Did publishing work? Yes\n- Any bugs or errors? : none\n- Improvement suggestions: room to get better \n- Would you pay to use this tool? If I have the capital",
+      "attachment_urls": null,
+      "winner": 1
+    },
+    {
+      "id": "18bd7bbc-5307-4616-8677-93513c3adeaa",
+      "content_text": "app is not working",
+      "attachment_urls": null,
+      "winner": 1
+    },
+    {
+      "id": "81a9faa6-b5ec-40a6-9a99-0b912685ee78",
+      "content_text": "1. GPT-4o\n2.9\n3.9\n4.9\n5.no\n6.none\n7. None\n8. Yes",
+      "attachment_urls": null,
+      "winner": 1
+    },
+    {
+      "id": "330cc20d-7506-4d4f-ba6b-806a0c9db94b",
+      "content_text": "Mine produced none\n0\nUi 0\nProfessionalism 0\nPublishing did not work\nYes there was bugs",
+      "attachment_urls": [
+        "https://ik.imagekit.io/wurk/IMG_8573_qThtu7VGV.png"
+      ],
+      "winner": 1
+    }
+  ],
+  "analysis": {
+    "liveCoding": [
+      1,
+      8,
+      8,
+      4
+    ],
+    "uiDesign": [
+      1,
+      4
+    ],
+    "professional": [
+      1,
+      8,
+      8,
+      6,
+      0
+    ],
+    "modelPref": {
+      "gpt4o": 3,
+      "kimi": 0,
+      "same": 7
+    },
+    "publishWorked": {
+      "yes": 2,
+      "no": 2
+    },
+    "wouldPay": {
+      "yes": 2,
+      "no": 0
+    },
+    "bugs": [],
+    "suggestions": [
+      "Speed of processing should increase",
+      "room to get better"
+    ]
+  }
+}

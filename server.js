@@ -225,23 +225,23 @@ app.post("/api/publish", async (req, res) => {
     return res.status(400).json({ error: "html_content is required" });
 
   const id = uuidv4();
-  const slug = slugify(title || "untitled-site");
+  const siteTitle = title || "Untitled Site";
 
-  try {
-    await pool.query(
-      "INSERT INTO sites (id, slug, title, html_content, prompt, model) VALUES ($1, $2, $3, $4, $5, $6)",
-      [id, slug, title || "Untitled Site", html_content, prompt || null, model || null]
-    );
-    const baseUrl =
-      req.headers["x-forwarded-host"] || req.headers.host || "localhost:" + PORT;
-    const protocol = req.headers["x-forwarded-proto"] || "http";
-    res.json({ id, slug, url: `${protocol}://${baseUrl}/site/${slug}` });
-  } catch (err) {
-    console.error("Publish error:", err.message);
-    if (err.code === "23505") {
-      return res.status(409).json({ error: "Slug conflict, try again" });
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const slug = slugify(siteTitle);
+    try {
+      await pool.query(
+        "INSERT INTO sites (id, slug, title, html_content, prompt, model) VALUES ($1, $2, $3, $4, $5, $6)",
+        [id, slug, siteTitle, html_content, prompt || null, model || null]
+      );
+      const host = req.headers["x-forwarded-host"] || req.headers.host || `localhost:${PORT}`;
+      const protocol = req.headers["x-forwarded-proto"] || (host.includes("localhost") ? "http" : "https");
+      return res.json({ id, slug, url: `${protocol}://${host}/site/${slug}` });
+    } catch (err) {
+      if (err.code === "23505" && attempt < 2) continue;
+      console.error("Publish error:", err.message);
+      return res.status(500).json({ error: "Failed to publish" });
     }
-    res.status(500).json({ error: "Failed to publish" });
   }
 });
 
