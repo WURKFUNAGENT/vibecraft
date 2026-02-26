@@ -1,112 +1,851 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello World</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VibeCraft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      color: #fff;
-      overflow: hidden;
-    }
+:root {
+  --bg: #0a0a0a;
+  --surface: #111113;
+  --surface-2: #18181b;
+  --border: #1e1e22;
+  --border-focus: #2a2a30;
+  --text: #fafafa;
+  --text-2: #a1a1aa;
+  --text-3: #71717a;
+  --accent: #6366f1;
+  --accent-hover: #818cf8;
+  --success: #22c55e;
+  --error: #ef4444;
+  --radius: 6px;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
 
-    .container {
-      text-align: center;
-      animation: fadeIn 1s ease-out;
-    }
+html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font); overflow: hidden; }
 
-    h1 {
-      font-size: clamp(2.5rem, 8vw, 5rem);
-      font-weight: 800;
-      background: linear-gradient(to right, #a78bfa, #60a5fa, #34d399);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 1rem;
-    }
+/* Header */
+.header {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+.header-logo {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  color: var(--text);
+}
+.header-nav { display: flex; gap: 8px; align-items: center; }
+.header-nav button {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  font-family: var(--font);
+  font-size: 13px;
+  padding: 5px 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.header-nav button:hover { color: var(--text); border-color: var(--border-focus); background: var(--surface-2); }
 
-    p {
-      font-size: 1.25rem;
-      color: rgba(255, 255, 255, 0.7);
-      margin-bottom: 2rem;
-    }
+/* Layout */
+.app { display: flex; flex-direction: column; height: 100vh; }
+.main { display: flex; flex: 1; min-height: 0; }
 
-    .badge {
-      display: inline-block;
-      padding: 0.5rem 1.5rem;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      font-size: 0.875rem;
-      color: rgba(255, 255, 255, 0.8);
-    }
+/* Left panel */
+.sidebar {
+  width: 300px;
+  min-width: 260px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  flex-shrink: 0;
+}
+.sidebar-inner { padding: 16px; display: flex; flex-direction: column; gap: 12px; flex: 1; overflow-y: auto; }
+.sidebar-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-3);
+}
+.prompt-area {
+  width: 100%;
+  min-height: 140px;
+  max-height: 260px;
+  resize: vertical;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.prompt-area:focus { border-color: var(--accent); }
+.prompt-area::placeholder { color: var(--text-3); }
 
-    .orbs {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: -1;
-    }
+.model-select {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  padding: 8px 10px;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+.model-select:focus { border-color: var(--accent); }
 
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.4;
-    }
+.btn {
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-secondary {
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover:not(:disabled) { border-color: var(--border-focus); background: #222; }
+.btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-success {
+  background: var(--success);
+  color: #fff;
+}
 
-    .orb:nth-child(1) {
-      width: 400px; height: 400px;
-      background: #a78bfa;
-      top: -10%; left: -5%;
-      animation: float 8s ease-in-out infinite;
-    }
+.status {
+  font-size: 12px;
+  color: var(--text-3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 20px;
+}
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-3);
+  flex-shrink: 0;
+}
+.status-dot.generating {
+  background: var(--accent);
+  animation: pulse 1s infinite;
+}
+.status-dot.done { background: var(--success); }
+.status-dot.error { background: var(--error); }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-    .orb:nth-child(2) {
-      width: 300px; height: 300px;
-      background: #60a5fa;
-      bottom: -10%; right: -5%;
-      animation: float 10s ease-in-out infinite reverse;
-    }
+.publish-url {
+  font-size: 12px;
+  word-break: break-all;
+  padding: 8px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.publish-url a { color: var(--accent); text-decoration: none; }
+.publish-url a:hover { text-decoration: underline; }
 
-    .orb:nth-child(3) {
-      width: 200px; height: 200px;
-      background: #34d399;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      animation: float 12s ease-in-out infinite;
-    }
+/* Editor + Preview workspace */
+.workspace { flex: 1; display: flex; min-width: 0; position: relative; }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+.panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 100px;
+  overflow: hidden;
+}
+.panel-header {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+.panel-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-2);
+}
+.panel-actions { display: flex; gap: 4px; }
+.panel-btn {
+  background: none;
+  border: none;
+  color: var(--text-3);
+  font-family: var(--font);
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.panel-btn:hover { color: var(--text); background: var(--surface-2); }
 
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(30px, -30px); }
-    }
-  </style>
+.editor-panel { flex: 55; }
+.preview-panel { flex: 45; }
+
+.editor-wrap {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+.editor-wrap .cm-editor { height: 100%; }
+.editor-wrap .cm-editor .cm-scroller { overflow: auto; }
+
+.preview-wrap { flex: 1; background: #fff; overflow: hidden; }
+.preview-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #fff;
+}
+
+/* Divider */
+.divider {
+  width: 4px;
+  cursor: col-resize;
+  background: var(--border);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 5;
+  transition: background 0.15s;
+}
+.divider:hover, .divider.active { background: var(--accent); }
+
+/* Explore Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 90%;
+  max-width: 640px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-header h2 { font-size: 15px; font-weight: 600; }
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--text-3);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+.modal-close:hover { color: var(--text); }
+.modal-body { padding: 16px 20px; overflow-y: auto; flex: 1; }
+.site-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.site-card:last-child { border-bottom: none; }
+.site-card-info h3 { font-size: 14px; font-weight: 500; }
+.site-card-info p { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+.site-card a {
+  font-size: 12px;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  white-space: nowrap;
+}
+.site-card a:hover { background: var(--surface-2); }
+.empty-state { text-align: center; padding: 40px 0; color: var(--text-3); font-size: 13px; }
+
+/* Mobile */
+@media (max-width: 768px) {
+  .main { flex-direction: column; }
+  .sidebar {
+    width: 100%;
+    min-width: unset;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-inner { padding: 12px; }
+  .prompt-area { min-height: 80px; }
+  .workspace { flex-direction: column; }
+  .divider {
+    width: 100%;
+    height: 4px;
+    cursor: row-resize;
+  }
+  .editor-panel, .preview-panel { flex: 1; min-height: 200px; }
+  .mobile-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .mobile-tab {
+    flex: 1;
+    padding: 8px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-3);
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: var(--font);
+    border-bottom: 2px solid transparent;
+  }
+  .mobile-tab.active { color: var(--text); border-bottom-color: var(--accent); }
+}
+@media (min-width: 769px) {
+  .mobile-tabs { display: none; }
+}
+</style>
 </head>
 <body>
-  <div class="orbs">
-    <div class="orb"></div>
-    <div class="orb"></div>
-    <div class="orb"></div>
+<div class="app">
+  <div class="header">
+    <div class="header-logo">VibeCraft</div>
+    <div class="header-nav">
+      <button id="exploreBtn">Explore</button>
+    </div>
   </div>
-  <div class="container">
-    <h1>Hello, World!</h1>
-    <p>Deployed with Railway</p>
-    <span class="badge">Powered by Node.js + Express</span>
+
+  <div class="main">
+    <div class="sidebar">
+      <div class="sidebar-inner">
+        <label class="sidebar-label">Prompt</label>
+        <textarea id="prompt" class="prompt-area" placeholder="Describe the website you want to build..." spellcheck="false"></textarea>
+
+        <label class="sidebar-label">Model</label>
+        <select id="model" class="model-select">
+          <option value="gpt4o">GPT-4o</option>
+          <option value="kimi">Kimi K2.5</option>
+        </select>
+
+        <button id="generateBtn" class="btn btn-primary">Generate</button>
+        <button id="publishBtn" class="btn btn-secondary" disabled>Publish</button>
+
+        <div class="status" id="status">
+          <span class="status-dot" id="statusDot"></span>
+          <span id="statusText">Ready</span>
+        </div>
+
+        <div class="publish-url" id="publishResult" style="display:none;"></div>
+      </div>
+    </div>
+
+    <div class="workspace">
+      <div class="mobile-tabs">
+        <button class="mobile-tab active" data-tab="code">Code</button>
+        <button class="mobile-tab" data-tab="preview">Preview</button>
+      </div>
+
+      <div class="panel editor-panel" id="editorPanel">
+        <div class="panel-header">
+          <span class="panel-title">Code</span>
+          <div class="panel-actions">
+            <button class="panel-btn" id="copyBtn">Copy</button>
+          </div>
+        </div>
+        <div class="editor-wrap" id="editorWrap"></div>
+      </div>
+
+      <div class="divider" id="divider"></div>
+
+      <div class="panel preview-panel" id="previewPanel">
+        <div class="panel-header">
+          <span class="panel-title">Preview</span>
+          <div class="panel-actions">
+            <button class="panel-btn" id="newTabBtn">Open in new tab</button>
+          </div>
+        </div>
+        <div class="preview-wrap">
+          <iframe id="preview" sandbox="allow-scripts allow-same-origin allow-popups allow-forms" title="Live preview"></iframe>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
+
+<!-- Explore Modal -->
+<div class="modal-overlay" id="exploreModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Recently Published</h2>
+      <button class="modal-close" id="modalClose">&times;</button>
+    </div>
+    <div class="modal-body" id="sitesList">
+      <div class="empty-state">Loading...</div>
+    </div>
+  </div>
+</div>
+
+<!-- CodeMirror 6 from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@codemirror/state@6/dist/index.cjs" type="module"></script>
+<script type="module">
+import { EditorView, basicSetup } from "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/+esm";
+import { html } from "https://cdn.jsdelivr.net/npm/@codemirror/lang-html@6/+esm";
+import { oneDark } from "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6/+esm";
+import { EditorState } from "https://cdn.jsdelivr.net/npm/@codemirror/state@6/+esm";
+
+// -- State --
+let editor;
+let generatedCode = "";
+let isGenerating = false;
+let charQueue = [];
+let charTimer = null;
+let previewTimer = null;
+let startTime = 0;
+let elapsedTimer = null;
+let rawBuffer = "";
+let fenceStripped = false;
+
+// -- Init Editor --
+const editorTheme = EditorView.theme({
+  "&": { height: "100%", fontSize: "13px" },
+  ".cm-scroller": { fontFamily: "'JetBrains Mono', 'Fira Code', monospace", overflow: "auto" },
+  ".cm-content": { caretColor: "#6366f1" },
+  ".cm-gutters": { background: "#111113", border: "none" },
+}, { dark: true });
+
+function createEditor(doc = "") {
+  if (editor) editor.destroy();
+  editor = new EditorView({
+    state: EditorState.create({
+      doc,
+      extensions: [basicSetup, html(), oneDark, editorTheme],
+    }),
+    parent: document.getElementById("editorWrap"),
+  });
+}
+createEditor("<!-- Your generated code will appear here -->");
+
+function getEditorContent() {
+  return editor.state.doc.toString();
+}
+
+function setEditorContent(text) {
+  editor.dispatch({
+    changes: { from: 0, to: editor.state.doc.length, insert: text },
+  });
+}
+
+function appendToEditor(text) {
+  const len = editor.state.doc.length;
+  editor.dispatch({
+    changes: { from: len, insert: text },
+    selection: { anchor: len + text.length },
+    scrollIntoView: true,
+  });
+}
+
+// -- Preview --
+function updatePreview(code) {
+  const iframe = document.getElementById("preview");
+  iframe.srcdoc = code || "";
+}
+
+function schedulePreviewUpdate() {
+  if (previewTimer) return;
+  previewTimer = setTimeout(() => {
+    previewTimer = null;
+    updatePreview(getEditorContent());
+  }, 600);
+}
+
+// -- Character-by-character streaming --
+function processCharQueue() {
+  if (charQueue.length === 0) {
+    charTimer = null;
+    return;
+  }
+  const batchSize = Math.min(3, charQueue.length);
+  const batch = charQueue.splice(0, batchSize).join("");
+  appendToEditor(batch);
+  generatedCode += batch;
+  schedulePreviewUpdate();
+  charTimer = setTimeout(processCharQueue, 12);
+}
+
+function enqueueChars(text) {
+  for (const ch of text) charQueue.push(ch);
+  if (!charTimer) charTimer = setTimeout(processCharQueue, 5);
+}
+
+function flushQueue() {
+  if (charTimer) clearTimeout(charTimer);
+  charTimer = null;
+  if (charQueue.length > 0) {
+    const remaining = charQueue.join("");
+    appendToEditor(remaining);
+    generatedCode += remaining;
+    charQueue = [];
+  }
+}
+
+// -- Status --
+function setStatus(state, text) {
+  const dot = document.getElementById("statusDot");
+  const statusText = document.getElementById("statusText");
+  dot.className = "status-dot " + state;
+  statusText.textContent = text;
+}
+
+function startElapsedTimer() {
+  startTime = Date.now();
+  elapsedTimer = setInterval(() => {
+    const s = ((Date.now() - startTime) / 1000).toFixed(0);
+    document.getElementById("statusText").textContent = `Generating... ${s}s`;
+  }, 500);
+}
+
+function stopElapsedTimer() {
+  if (elapsedTimer) clearInterval(elapsedTimer);
+  elapsedTimer = null;
+}
+
+// -- Generate --
+async function generate() {
+  const promptEl = document.getElementById("prompt");
+  const promptText = promptEl.value.trim();
+  if (!promptText) return;
+
+  const modelEl = document.getElementById("model");
+  const generateBtn = document.getElementById("generateBtn");
+  const publishBtn = document.getElementById("publishBtn");
+  const publishResult = document.getElementById("publishResult");
+
+  publishResult.style.display = "none";
+  generateBtn.disabled = true;
+  publishBtn.disabled = true;
+  isGenerating = true;
+
+  const existingCode = generatedCode || null;
+  generatedCode = "";
+  rawBuffer = "";
+  fenceStripped = false;
+  charQueue = [];
+  if (charTimer) clearTimeout(charTimer);
+  charTimer = null;
+  if (previewTimer) clearTimeout(previewTimer);
+  previewTimer = null;
+
+  setEditorContent("");
+  setStatus("generating", "Generating...");
+  startElapsedTimer();
+
+  try {
+    const res = await fetch("/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prompt: promptText,
+        model: modelEl.value,
+        existingCode: existingCode || undefined,
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: "Request failed" }));
+      throw new Error(err.error || "Request failed");
+    }
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split("\n");
+      buffer = lines.pop();
+
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed.startsWith("data: ")) continue;
+        const data = trimmed.slice(6);
+        if (data === "[DONE]") break;
+        try {
+          const parsed = JSON.parse(data);
+          if (parsed.content) {
+            rawBuffer += parsed.content;
+            if (!fenceStripped) {
+              const idx = rawBuffer.indexOf("<!");
+              if (idx >= 0) {
+                fenceStripped = true;
+                enqueueChars(rawBuffer.slice(idx));
+                rawBuffer = "";
+              }
+            } else {
+              enqueueChars(parsed.content);
+            }
+          }
+          if (parsed.error) throw new Error(parsed.error);
+        } catch (e) {
+          if (e.message && !e.message.includes("JSON")) throw e;
+        }
+      }
+    }
+
+    await new Promise((resolve) => {
+      const check = () => {
+        if (charQueue.length === 0) return resolve();
+        setTimeout(check, 50);
+      };
+      check();
+    });
+
+    flushQueue();
+    stopElapsedTimer();
+    // Strip trailing markdown fence if present
+    let finalCode = getEditorContent().replace(/```\s*$/, "").trimEnd();
+    if (finalCode !== getEditorContent()) {
+      setEditorContent(finalCode);
+      generatedCode = finalCode;
+    }
+    updatePreview(getEditorContent());
+    setStatus("done", "Done — your site is ready!");
+    publishBtn.disabled = false;
+  } catch (err) {
+    flushQueue();
+    stopElapsedTimer();
+    updatePreview(getEditorContent());
+    setStatus("error", `Error: ${err.message}`);
+    if (generatedCode) publishBtn.disabled = false;
+  } finally {
+    generateBtn.disabled = false;
+    isGenerating = false;
+  }
+}
+
+// -- Publish --
+async function publish() {
+  const code = getEditorContent();
+  if (!code || code.startsWith("<!--")) return;
+
+  const publishBtn = document.getElementById("publishBtn");
+  const publishResult = document.getElementById("publishResult");
+  publishBtn.disabled = true;
+  setStatus("generating", "Publishing...");
+
+  const titleMatch = code.match(/<title>(.*?)<\/title>/i);
+  const title = titleMatch ? titleMatch[1].trim() : document.getElementById("prompt").value.slice(0, 60) || "Untitled Site";
+
+  try {
+    const res = await fetch("/api/publish", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title,
+        html_content: code,
+        prompt: document.getElementById("prompt").value,
+        model: document.getElementById("model").value,
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ error: "Publish failed" }));
+      throw new Error(err.error || "Publish failed");
+    }
+
+    const data = await res.json();
+    publishResult.innerHTML = `Published: <a href="${data.url}" target="_blank">${data.url}</a>`;
+    publishResult.style.display = "block";
+    setStatus("done", "Published successfully!");
+  } catch (err) {
+    setStatus("error", `Publish failed: ${err.message}`);
+  } finally {
+    publishBtn.disabled = false;
+  }
+}
+
+// -- Copy --
+function copyCode() {
+  const code = getEditorContent();
+  navigator.clipboard.writeText(code).then(() => {
+    const btn = document.getElementById("copyBtn");
+    btn.textContent = "Copied!";
+    setTimeout(() => (btn.textContent = "Copy"), 1500);
+  });
+}
+
+// -- New tab --
+function openNewTab() {
+  const code = getEditorContent();
+  const blob = new Blob([code], { type: "text/html" });
+  window.open(URL.createObjectURL(blob), "_blank");
+}
+
+// -- Explore --
+async function loadExplore() {
+  const list = document.getElementById("sitesList");
+  try {
+    const res = await fetch("/api/sites");
+    const sites = await res.json();
+    if (sites.length === 0) {
+      list.innerHTML = '<div class="empty-state">No published sites yet</div>';
+      return;
+    }
+    list.innerHTML = sites
+      .map((s) => {
+        const date = new Date(s.created_at).toLocaleDateString();
+        return `<div class="site-card"><div class="site-card-info"><h3>${escapeHtml(s.title)}</h3><p>${date}</p></div><a href="/site/${s.slug}" target="_blank">Visit</a></div>`;
+      })
+      .join("");
+  } catch {
+    list.innerHTML = '<div class="empty-state">Could not load sites</div>';
+  }
+}
+
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// -- Divider drag --
+(function initDivider() {
+  const divider = document.getElementById("divider");
+  const editorPanel = document.getElementById("editorPanel");
+  const previewPanel = document.getElementById("previewPanel");
+  let dragging = false;
+  let startX = 0;
+  let startEditorW = 0;
+  let startPreviewW = 0;
+
+  divider.addEventListener("mousedown", (e) => {
+    dragging = true;
+    divider.classList.add("active");
+    startX = e.clientX;
+    startEditorW = editorPanel.offsetWidth;
+    startPreviewW = previewPanel.offsetWidth;
+    document.body.style.cursor = "col-resize";
+    document.body.style.userSelect = "none";
+    e.preventDefault();
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (!dragging) return;
+    const dx = e.clientX - startX;
+    const totalW = startEditorW + startPreviewW;
+    let newEditorW = startEditorW + dx;
+    let newPreviewW = startPreviewW - dx;
+    if (newEditorW < 200) { newEditorW = 200; newPreviewW = totalW - 200; }
+    if (newPreviewW < 200) { newPreviewW = 200; newEditorW = totalW - 200; }
+    const editorFlex = newEditorW / totalW * 100;
+    const previewFlex = newPreviewW / totalW * 100;
+    editorPanel.style.flex = `${editorFlex}`;
+    previewPanel.style.flex = `${previewFlex}`;
+  });
+
+  document.addEventListener("mouseup", () => {
+    if (!dragging) return;
+    dragging = false;
+    divider.classList.remove("active");
+    document.body.style.cursor = "";
+    document.body.style.userSelect = "";
+  });
+})();
+
+// -- Mobile tabs --
+document.querySelectorAll(".mobile-tab").forEach((tab) => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".mobile-tab").forEach((t) => t.classList.remove("active"));
+    tab.classList.add("active");
+    const target = tab.dataset.tab;
+    document.getElementById("editorPanel").style.display = target === "code" ? "flex" : "none";
+    document.getElementById("previewPanel").style.display = target === "preview" ? "flex" : "none";
+    document.getElementById("divider").style.display = "none";
+  });
+});
+
+// -- Events --
+document.getElementById("generateBtn").addEventListener("click", generate);
+document.getElementById("publishBtn").addEventListener("click", publish);
+document.getElementById("copyBtn").addEventListener("click", copyCode);
+document.getElementById("newTabBtn").addEventListener("click", openNewTab);
+
+document.getElementById("exploreBtn").addEventListener("click", () => {
+  document.getElementById("exploreModal").classList.add("open");
+  loadExplore();
+});
+document.getElementById("modalClose").addEventListener("click", () => {
+  document.getElementById("exploreModal").classList.remove("open");
+});
+document.getElementById("exploreModal").addEventListener("click", (e) => {
+  if (e.target === e.currentTarget) e.currentTarget.classList.remove("open");
+});
+
+document.getElementById("prompt").addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+    e.preventDefault();
+    generate();
+  }
+});
+</script>
 </body>
 </html>
