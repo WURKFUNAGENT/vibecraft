@@ -3,63 +3,83 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VibeCraft</title>
+<title>VibeCraft — AI Website Builder</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg: #0a0a0a;
-  --surface: #111113;
-  --surface-2: #18181b;
-  --border: #1e1e22;
-  --border-focus: #2a2a30;
+  --bg: #09090b;
+  --surface: #0f0f12;
+  --surface-2: #16161a;
+  --surface-3: #1c1c22;
+  --border: #1c1c24;
+  --border-2: #26262e;
   --text: #fafafa;
   --text-2: #a1a1aa;
   --text-3: #71717a;
+  --text-4: #52525b;
   --accent: #6366f1;
   --accent-hover: #818cf8;
+  --accent-subtle: rgba(99,102,241,0.12);
   --success: #22c55e;
+  --success-subtle: rgba(34,197,94,0.12);
   --error: #ef4444;
+  --error-subtle: rgba(239,68,68,0.12);
   --radius: 6px;
-  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  --radius-lg: 8px;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.5);
 }
 
-html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font); overflow: hidden; }
+html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font); overflow: hidden; font-size: 14px; -webkit-font-smoothing: antialiased; }
 
 /* Header */
 .header {
-  height: 48px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: 0 20px;
   border-bottom: 1px solid var(--border);
   background: var(--surface);
   flex-shrink: 0;
 }
+.header-left { display: flex; align-items: center; gap: 16px; }
 .header-logo {
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: -0.3px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
   color: var(--text);
 }
-.header-nav { display: flex; gap: 8px; align-items: center; }
-.header-nav button {
+.header-logo span { color: var(--accent); }
+.header-sep { width: 1px; height: 20px; background: var(--border); }
+.header-badge {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-3);
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.header-nav { display: flex; gap: 6px; align-items: center; }
+.nav-btn {
   background: none;
   border: 1px solid var(--border);
   color: var(--text-2);
   font-family: var(--font);
-  font-size: 13px;
-  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 12px;
   border-radius: var(--radius);
   cursor: pointer;
   transition: all 0.15s;
 }
-.header-nav button:hover { color: var(--text); border-color: var(--border-focus); background: var(--surface-2); }
+.nav-btn:hover { color: var(--text); border-color: var(--border-2); background: var(--surface-2); }
 
 /* Layout */
 .app { display: flex; flex-direction: column; height: 100vh; }
@@ -68,25 +88,42 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 /* Left panel */
 .sidebar {
   width: 300px;
-  min-width: 260px;
+  min-width: 280px;
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   background: var(--surface);
   flex-shrink: 0;
 }
-.sidebar-inner { padding: 16px; display: flex; flex-direction: column; gap: 12px; flex: 1; overflow-y: auto; }
-.sidebar-label {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--text-3);
+.sidebar-inner {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+  overflow-y: auto;
+}
+.field-group { display: flex; flex-direction: column; gap: 6px; }
+.field-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.field-label .shortcut {
+  font-size: 10px;
+  color: var(--text-4);
+  padding: 1px 5px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  font-family: var(--mono);
 }
 .prompt-area {
   width: 100%;
-  min-height: 140px;
-  max-height: 260px;
+  min-height: 120px;
+  max-height: 200px;
   resize: vertical;
   background: var(--bg);
   border: 1px solid var(--border);
@@ -94,13 +131,13 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
   color: var(--text);
   font-family: var(--font);
   font-size: 13px;
-  line-height: 1.5;
+  line-height: 1.55;
   padding: 10px 12px;
   outline: none;
   transition: border-color 0.15s;
 }
-.prompt-area:focus { border-color: var(--accent); }
-.prompt-area::placeholder { color: var(--text-3); }
+.prompt-area:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-subtle); }
+.prompt-area::placeholder { color: var(--text-4); }
 
 .model-select {
   width: 100%;
@@ -110,7 +147,7 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
   color: var(--text);
   font-family: var(--font);
   font-size: 13px;
-  padding: 8px 10px;
+  padding: 8px 30px 8px 10px;
   outline: none;
   cursor: pointer;
   appearance: none;
@@ -119,12 +156,13 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 10px center;
+  transition: border-color 0.15s;
 }
-.model-select:focus { border-color: var(--accent); }
+.model-select:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-subtle); }
 
 .btn {
   width: 100%;
-  padding: 10px 16px;
+  padding: 9px 16px;
   border: none;
   border-radius: var(--radius);
   font-family: var(--font);
@@ -137,57 +175,66 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
   justify-content: center;
   gap: 6px;
 }
-.btn-primary {
-  background: var(--accent);
-  color: #fff;
-}
-.btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
-.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-1px); box-shadow: var(--shadow); }
+.btn-primary:active:not(:disabled) { transform: translateY(0); }
+.btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
 .btn-secondary {
-  background: var(--surface-2);
+  background: transparent;
   color: var(--text);
   border: 1px solid var(--border);
 }
-.btn-secondary:hover:not(:disabled) { border-color: var(--border-focus); background: #222; }
-.btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
-.btn-success {
-  background: var(--success);
-  color: #fff;
-}
+.btn-secondary:hover:not(:disabled) { border-color: var(--border-2); background: var(--surface-2); }
+.btn-secondary:disabled { opacity: 0.35; cursor: not-allowed; }
 
-.status {
+.status-bar {
   font-size: 12px;
   color: var(--text-3);
   display: flex;
   align-items: center;
-  gap: 6px;
-  min-height: 20px;
+  gap: 8px;
+  min-height: 24px;
+  padding: 4px 0;
 }
 .status-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: var(--text-3);
+  background: var(--text-4);
   flex-shrink: 0;
 }
 .status-dot.generating {
   background: var(--accent);
-  animation: pulse 1s infinite;
+  animation: pulse 1.2s ease-in-out infinite;
 }
 .status-dot.done { background: var(--success); }
 .status-dot.error { background: var(--error); }
-@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
 
-.publish-url {
+.publish-result {
   font-size: 12px;
-  word-break: break-all;
-  padding: 8px 10px;
-  background: var(--bg);
-  border: 1px solid var(--border);
+  padding: 10px 12px;
+  background: var(--success-subtle);
+  border: 1px solid rgba(34,197,94,0.2);
   border-radius: var(--radius);
+  word-break: break-all;
+  line-height: 1.5;
 }
-.publish-url a { color: var(--accent); text-decoration: none; }
-.publish-url a:hover { text-decoration: underline; }
+.publish-result a { color: var(--success); text-decoration: none; font-weight: 500; }
+.publish-result a:hover { text-decoration: underline; }
+
+.sidebar-divider { height: 1px; background: var(--border); margin: 2px 0; }
+
+.tips {
+  font-size: 11px;
+  color: var(--text-4);
+  line-height: 1.5;
+  padding: 8px 10px;
+  background: var(--surface-2);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+.tips strong { color: var(--text-3); font-weight: 500; }
 
 /* Editor + Preview workspace */
 .workspace { flex: 1; display: flex; min-width: 0; position: relative; }
@@ -199,11 +246,11 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
   overflow: hidden;
 }
 .panel-header {
-  height: 36px;
+  height: 38px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 12px;
+  padding: 0 14px;
   border-bottom: 1px solid var(--border);
   background: var(--surface);
   flex-shrink: 0;
@@ -211,44 +258,50 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 .panel-title {
   font-size: 12px;
   font-weight: 500;
-  color: var(--text-2);
+  color: var(--text-3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
-.panel-actions { display: flex; gap: 4px; }
+.panel-title .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+.panel-actions { display: flex; gap: 2px; }
 .panel-btn {
   background: none;
   border: none;
-  color: var(--text-3);
+  color: var(--text-4);
   font-family: var(--font);
   font-size: 11px;
-  padding: 3px 8px;
+  padding: 4px 8px;
   border-radius: 4px;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.12s;
 }
-.panel-btn:hover { color: var(--text); background: var(--surface-2); }
+.panel-btn:hover { color: var(--text-2); background: var(--surface-2); }
+.panel-btn.copied { color: var(--success); }
 
 .editor-panel { flex: 55; }
 .preview-panel { flex: 45; }
 
-.editor-wrap {
-  flex: 1;
-  overflow: hidden;
-  position: relative;
-}
+.editor-wrap { flex: 1; overflow: hidden; position: relative; }
 .editor-wrap .cm-editor { height: 100%; }
 .editor-wrap .cm-editor .cm-scroller { overflow: auto; }
-
-.preview-wrap { flex: 1; background: #fff; overflow: hidden; border-left: 1px solid var(--border); }
-.preview-wrap iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  background: #fff;
+.editor-fallback {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-3);
+  font-size: 13px;
+  padding: 20px;
+  text-align: center;
 }
+
+.preview-wrap { flex: 1; background: #fff; overflow: hidden; }
+.preview-wrap iframe { width: 100%; height: 100%; border: none; background: #fff; }
 
 /* Divider */
 .divider {
-  width: 4px;
+  width: 3px;
   cursor: col-resize;
   background: var(--border);
   flex-shrink: 0;
@@ -262,23 +315,25 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.65);
   z-index: 100;
   display: none;
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 .modal-overlay.open { display: flex; }
 .modal {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   width: 90%;
-  max-width: 640px;
-  max-height: 80vh;
+  max-width: 580px;
+  max-height: 75vh;
   display: flex;
   flex-direction: column;
+  box-shadow: var(--shadow-lg);
 }
 .modal-header {
   display: flex;
@@ -287,113 +342,137 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
   padding: 16px 20px;
   border-bottom: 1px solid var(--border);
 }
-.modal-header h2 { font-size: 15px; font-weight: 600; }
+.modal-header h2 { font-size: 14px; font-weight: 600; }
 .modal-close {
   background: none;
   border: none;
   color: var(--text-3);
   font-size: 18px;
   cursor: pointer;
-  padding: 4px;
+  padding: 2px 6px;
+  border-radius: 4px;
   line-height: 1;
+  transition: all 0.12s;
 }
-.modal-close:hover { color: var(--text); }
-.modal-body { padding: 16px 20px; overflow-y: auto; flex: 1; }
+.modal-close:hover { color: var(--text); background: var(--surface-2); }
+.modal-body { padding: 12px 20px; overflow-y: auto; flex: 1; }
 .site-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 12px 0;
   border-bottom: 1px solid var(--border);
+  gap: 12px;
 }
 .site-card:last-child { border-bottom: none; }
-.site-card-info h3 { font-size: 14px; font-weight: 500; }
-.site-card-info p { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+.site-card-info { min-width: 0; }
+.site-card-info h3 { font-size: 13px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.site-card-info p { font-size: 11px; color: var(--text-4); margin-top: 3px; }
 .site-card a {
-  font-size: 12px;
+  font-size: 11px;
+  font-weight: 500;
   color: var(--accent);
   text-decoration: none;
-  padding: 4px 10px;
+  padding: 5px 12px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   white-space: nowrap;
+  transition: all 0.12s;
 }
-.site-card a:hover { background: var(--surface-2); }
-.empty-state { text-align: center; padding: 40px 0; color: var(--text-3); font-size: 13px; }
+.site-card a:hover { background: var(--accent-subtle); border-color: var(--accent); }
+.empty-state { text-align: center; padding: 40px 20px; color: var(--text-4); font-size: 13px; }
 
 /* Mobile */
+.mobile-tabs {
+  display: none;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+.mobile-tab {
+  flex: 1;
+  padding: 10px 8px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-3);
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--font);
+  border-bottom: 2px solid transparent;
+  transition: all 0.12s;
+}
+.mobile-tab.active { color: var(--text); border-bottom-color: var(--accent); }
+
 @media (max-width: 768px) {
   .main { flex-direction: column; }
   .sidebar {
     width: 100%;
     min-width: unset;
-    max-height: 40vh;
+    max-height: 38vh;
     border-right: none;
     border-bottom: 1px solid var(--border);
     overflow-y: auto;
   }
-  .sidebar-inner { padding: 12px; }
-  .prompt-area { min-height: 80px; }
+  .sidebar-inner { padding: 12px; gap: 10px; }
+  .prompt-area { min-height: 70px; }
+  .tips { display: none; }
   .workspace { flex-direction: column; flex: 1; min-height: 0; }
   .divider { display: none; }
   .editor-panel, .preview-panel { flex: 1; min-height: 0; }
   .preview-panel { display: none; }
-  .mobile-tabs {
-    display: flex;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-    flex-shrink: 0;
-  }
-  .mobile-tab {
-    flex: 1;
-    padding: 8px;
-    text-align: center;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-3);
-    cursor: pointer;
-    border: none;
-    background: none;
-    font-family: var(--font);
-    border-bottom: 2px solid transparent;
-  }
-  .mobile-tab.active { color: var(--text); border-bottom-color: var(--accent); }
-}
-@media (min-width: 769px) {
-  .mobile-tabs { display: none; }
+  .mobile-tabs { display: flex; }
 }
 </style>
 </head>
 <body>
 <div class="app">
   <div class="header">
-    <div class="header-logo">VibeCraft</div>
+    <div class="header-left">
+      <div class="header-logo">Vibe<span>Craft</span></div>
+      <div class="header-sep"></div>
+      <div class="header-badge">AI Website Builder</div>
+    </div>
     <div class="header-nav">
-      <button id="exploreBtn">Explore</button>
+      <button class="nav-btn" id="exploreBtn">Explore Sites</button>
     </div>
   </div>
 
   <div class="main">
     <div class="sidebar">
       <div class="sidebar-inner">
-        <label class="sidebar-label">Prompt</label>
-        <textarea id="prompt" class="prompt-area" placeholder="Describe the website you want to build..." spellcheck="false"></textarea>
-
-        <label class="sidebar-label">Model</label>
-        <select id="model" class="model-select">
-          <option value="gpt4o">GPT-4o</option>
-          <option value="kimi">Kimi K2.5</option>
-        </select>
-
-        <button id="generateBtn" class="btn btn-primary">Generate</button>
-        <button id="publishBtn" class="btn btn-secondary" disabled>Publish</button>
-
-        <div class="status" id="status">
-          <span class="status-dot" id="statusDot"></span>
-          <span id="statusText">Ready</span>
+        <div class="field-group">
+          <label class="field-label">
+            Describe your site
+            <span class="shortcut">Ctrl+Enter</span>
+          </label>
+          <textarea id="prompt" class="prompt-area" placeholder="e.g. A modern portfolio for a photographer with a dark theme, image grid, and contact form..." spellcheck="false"></textarea>
         </div>
 
-        <div class="publish-url" id="publishResult" style="display:none;"></div>
+        <div class="field-group">
+          <label class="field-label">AI Model</label>
+          <select id="model" class="model-select">
+            <option value="gpt4o">GPT-4o</option>
+            <option value="kimi">Kimi K2.5</option>
+          </select>
+        </div>
+
+        <button id="generateBtn" class="btn btn-primary">Generate Website</button>
+        <button id="publishBtn" class="btn btn-secondary" disabled>Publish to Web</button>
+
+        <div class="status-bar" id="status">
+          <span class="status-dot" id="statusDot"></span>
+          <span id="statusText">Ready to generate</span>
+        </div>
+
+        <div class="publish-result" id="publishResult" style="display:none;"></div>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="tips">
+          <strong>Tips:</strong> Try "a landing page for a coffee shop with a menu section" or "a personal blog with dark theme". You can also ask for changes like "add a contact form" after generating.
+        </div>
       </div>
     </div>
 
@@ -405,7 +484,7 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 
       <div class="panel editor-panel" id="editorPanel">
         <div class="panel-header">
-          <span class="panel-title">Code</span>
+          <span class="panel-title"><span class="dot"></span> Code</span>
           <div class="panel-actions">
             <button class="panel-btn" id="copyBtn">Copy</button>
           </div>
@@ -417,9 +496,9 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 
       <div class="panel preview-panel" id="previewPanel">
         <div class="panel-header">
-          <span class="panel-title">Preview</span>
+          <span class="panel-title"><span class="dot"></span> Preview</span>
           <div class="panel-actions">
-            <button class="panel-btn" id="newTabBtn">Open in new tab</button>
+            <button class="panel-btn" id="newTabBtn">Open in tab</button>
           </div>
         </div>
         <div class="preview-wrap">
@@ -434,7 +513,7 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
 <div class="modal-overlay" id="exploreModal">
   <div class="modal">
     <div class="modal-header">
-      <h2>Recently Published</h2>
+      <h2>Published Sites</h2>
       <button class="modal-close" id="modalClose">&times;</button>
     </div>
     <div class="modal-body" id="sitesList">
@@ -443,9 +522,9 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
   </div>
 </div>
 
-<!-- CodeMirror 6 from CDN -->
 <script type="module">
 let EditorView, basicSetup, htmlLang, oneDark, EditorState;
+let cmLoaded = false;
 try {
   const cm = await import("https://cdn.jsdelivr.net/npm/codemirror@6.0.1/+esm");
   EditorView = cm.EditorView;
@@ -456,13 +535,14 @@ try {
   oneDark = themeMod.oneDark;
   const stateMod = await import("https://cdn.jsdelivr.net/npm/@codemirror/state@6/+esm");
   EditorState = stateMod.EditorState;
+  cmLoaded = true;
 } catch (e) {
-  document.getElementById("editorWrap").innerHTML = '<div style="padding:20px;color:#ef4444;font-size:13px;">Failed to load code editor. Please refresh the page.</div>';
-  throw e;
+  console.error("CodeMirror load failed:", e);
+  document.getElementById("editorWrap").innerHTML = '<div class="editor-fallback">Editor failed to load. Please refresh the page or check your internet connection.</div>';
 }
 
-// -- State --
-let editor;
+// State
+let editor = null;
 let generatedCode = "";
 let isGenerating = false;
 let charQueue = [];
@@ -473,15 +553,18 @@ let elapsedTimer = null;
 let rawBuffer = "";
 let fenceStripped = false;
 
-// -- Init Editor --
-const editorTheme = EditorView.theme({
+// Editor
+const editorTheme = cmLoaded ? EditorView.theme({
   "&": { height: "100%", fontSize: "13px" },
-  ".cm-scroller": { fontFamily: "'JetBrains Mono', 'Fira Code', monospace", overflow: "auto" },
-  ".cm-content": { caretColor: "#6366f1" },
-  ".cm-gutters": { background: "#111113", border: "none" },
-}, { dark: true });
+  ".cm-scroller": { fontFamily: "var(--mono)", overflow: "auto", lineHeight: "1.6" },
+  ".cm-content": { caretColor: "#6366f1", padding: "8px 0" },
+  ".cm-gutters": { background: "#0f0f12", border: "none", color: "#3f3f46" },
+  ".cm-activeLineGutter": { background: "#16161a" },
+  ".cm-activeLine": { background: "rgba(99,102,241,0.06)" },
+}, { dark: true }) : null;
 
 function createEditor(doc = "") {
+  if (!cmLoaded) return;
   if (editor) editor.destroy();
   editor = new EditorView({
     state: EditorState.create({
@@ -491,19 +574,17 @@ function createEditor(doc = "") {
     parent: document.getElementById("editorWrap"),
   });
 }
-createEditor("<!-- Your generated code will appear here -->");
+if (cmLoaded) createEditor("<!-- Generate a website to see the code appear here -->");
 
 function getEditorContent() {
-  return editor.state.doc.toString();
+  return editor ? editor.state.doc.toString() : "";
 }
-
 function setEditorContent(text) {
-  editor.dispatch({
-    changes: { from: 0, to: editor.state.doc.length, insert: text },
-  });
+  if (!editor) return;
+  editor.dispatch({ changes: { from: 0, to: editor.state.doc.length, insert: text } });
 }
-
 function appendToEditor(text) {
+  if (!editor) return;
   const len = editor.state.doc.length;
   editor.dispatch({
     changes: { from: len, insert: text },
@@ -512,39 +593,33 @@ function appendToEditor(text) {
   });
 }
 
-// -- Preview --
+// Preview
 function updatePreview(code) {
   const iframe = document.getElementById("preview");
-  iframe.srcdoc = code || "";
+  if (iframe) iframe.srcdoc = code || "";
 }
-
 function schedulePreviewUpdate() {
   if (previewTimer) return;
   previewTimer = setTimeout(() => {
     previewTimer = null;
     updatePreview(getEditorContent());
-  }, 600);
+  }, 500);
 }
 
-// -- Character-by-character streaming --
+// Character streaming
 function processCharQueue() {
-  if (charQueue.length === 0) {
-    charTimer = null;
-    return;
-  }
-  const batchSize = Math.min(3, charQueue.length);
-  const batch = charQueue.splice(0, batchSize).join("");
-  appendToEditor(batch);
-  generatedCode += batch;
+  if (charQueue.length === 0) { charTimer = null; return; }
+  const batch = Math.min(4, charQueue.length);
+  const text = charQueue.splice(0, batch).join("");
+  appendToEditor(text);
+  generatedCode += text;
   schedulePreviewUpdate();
-  charTimer = setTimeout(processCharQueue, 12);
+  charTimer = setTimeout(processCharQueue, 10);
 }
-
 function enqueueChars(text) {
   for (const ch of text) charQueue.push(ch);
   if (!charTimer) charTimer = setTimeout(processCharQueue, 5);
 }
-
 function flushQueue() {
   if (charTimer) clearTimeout(charTimer);
   charTimer = null;
@@ -556,14 +631,11 @@ function flushQueue() {
   }
 }
 
-// -- Status --
+// Status
 function setStatus(state, text) {
-  const dot = document.getElementById("statusDot");
-  const statusText = document.getElementById("statusText");
-  dot.className = "status-dot " + state;
-  statusText.textContent = text;
+  document.getElementById("statusDot").className = "status-dot " + state;
+  document.getElementById("statusText").textContent = text;
 }
-
 function startElapsedTimer() {
   startTime = Date.now();
   elapsedTimer = setInterval(() => {
@@ -571,19 +643,17 @@ function startElapsedTimer() {
     document.getElementById("statusText").textContent = `Generating... ${s}s`;
   }, 500);
 }
-
 function stopElapsedTimer() {
   if (elapsedTimer) clearInterval(elapsedTimer);
   elapsedTimer = null;
 }
 
-// -- Generate --
+// Generate
 async function generate() {
   const promptEl = document.getElementById("prompt");
   const promptText = promptEl.value.trim();
-  if (!promptText) return;
+  if (!promptText || !cmLoaded) return;
 
-  const modelEl = document.getElementById("model");
   const generateBtn = document.getElementById("generateBtn");
   const publishBtn = document.getElementById("publishBtn");
   const publishResult = document.getElementById("publishResult");
@@ -613,14 +683,14 @@ async function generate() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         prompt: promptText,
-        model: modelEl.value,
+        model: document.getElementById("model").value,
         existingCode: existingCode || undefined,
       }),
     });
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({ error: "Request failed" }));
-      throw new Error(err.error || "Request failed");
+      throw new Error(err.error || `Server error (${res.status})`);
     }
 
     const reader = res.body.getReader();
@@ -630,7 +700,6 @@ async function generate() {
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-
       buffer += decoder.decode(value, { stream: true });
       const lines = buffer.split("\n");
       buffer = lines.pop();
@@ -662,22 +731,15 @@ async function generate() {
       }
     }
 
-    await new Promise((resolve) => {
-      const check = () => {
-        if (charQueue.length === 0) return resolve();
-        setTimeout(check, 50);
-      };
-      check();
-    });
-
+    // Wait for queue to drain
+    await new Promise((r) => { const c = () => charQueue.length === 0 ? r() : setTimeout(c, 30); c(); });
     flushQueue();
     stopElapsedTimer();
-    // Strip trailing markdown fence if present
-    let finalCode = getEditorContent().replace(/```\s*$/, "").trimEnd();
-    if (finalCode !== getEditorContent()) {
-      setEditorContent(finalCode);
-      generatedCode = finalCode;
-    }
+
+    // Strip trailing markdown fence
+    let code = getEditorContent().replace(/```\s*$/, "").trimEnd();
+    if (code !== getEditorContent()) { setEditorContent(code); generatedCode = code; }
+
     updatePreview(getEditorContent());
     setStatus("done", "Done — your site is ready!");
     publishBtn.disabled = false;
@@ -693,7 +755,7 @@ async function generate() {
   }
 }
 
-// -- Publish --
+// Publish
 async function publish() {
   const code = getEditorContent();
   if (!code || code.startsWith("<!--")) return;
@@ -724,9 +786,9 @@ async function publish() {
     }
 
     const data = await res.json();
-    publishResult.innerHTML = `Published: <a href="${data.url}" target="_blank">${data.url}</a>`;
+    publishResult.innerHTML = `Your site is live: <a href="${data.url}" target="_blank" rel="noopener">${data.url}</a>`;
     publishResult.style.display = "block";
-    setStatus("done", "Published successfully!");
+    setStatus("done", "Published!");
   } catch (err) {
     setStatus("error", `Publish failed: ${err.message}`);
   } finally {
@@ -734,141 +796,102 @@ async function publish() {
   }
 }
 
-// -- Copy --
+// Copy
 function copyCode() {
   const code = getEditorContent();
   navigator.clipboard.writeText(code).then(() => {
     const btn = document.getElementById("copyBtn");
     btn.textContent = "Copied!";
-    setTimeout(() => (btn.textContent = "Copy"), 1500);
+    btn.classList.add("copied");
+    setTimeout(() => { btn.textContent = "Copy"; btn.classList.remove("copied"); }, 1500);
   });
 }
 
-// -- New tab --
+// New tab
 function openNewTab() {
   const code = getEditorContent();
+  if (!code) return;
   const blob = new Blob([code], { type: "text/html" });
   window.open(URL.createObjectURL(blob), "_blank");
 }
 
-// -- Explore --
+// Explore
 async function loadExplore() {
   const list = document.getElementById("sitesList");
+  list.innerHTML = '<div class="empty-state">Loading...</div>';
   try {
     const res = await fetch("/api/sites");
+    if (!res.ok) throw new Error("Failed to load");
     const sites = await res.json();
-    if (sites.length === 0) {
-      list.innerHTML = '<div class="empty-state">No published sites yet</div>';
+    if (!sites || sites.length === 0) {
+      list.innerHTML = '<div class="empty-state">No published sites yet. Be the first!</div>';
       return;
     }
-    list.innerHTML = sites
-      .map((s) => {
-        const date = new Date(s.created_at).toLocaleDateString();
-        return `<div class="site-card"><div class="site-card-info"><h3>${escapeHtml(s.title)}</h3><p>${date}</p></div><a href="/site/${s.slug}" target="_blank">Visit</a></div>`;
-      })
-      .join("");
+    list.innerHTML = sites.map((s) => {
+      const date = new Date(s.created_at).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+      return `<div class="site-card"><div class="site-card-info"><h3>${escapeHtml(s.title)}</h3><p>${date}</p></div><a href="/site/${encodeURIComponent(s.slug)}" target="_blank">Visit</a></div>`;
+    }).join("");
   } catch {
-    list.innerHTML = '<div class="empty-state">Could not load sites</div>';
+    list.innerHTML = '<div class="empty-state">Could not load sites. Try again later.</div>';
   }
 }
 
 function escapeHtml(str) {
-  const div = document.createElement("div");
-  div.textContent = str;
-  return div.innerHTML;
+  const d = document.createElement("div");
+  d.textContent = str;
+  return d.innerHTML;
 }
 
-// -- Divider drag --
+// Divider drag
 (function initDivider() {
   const divider = document.getElementById("divider");
   const editorPanel = document.getElementById("editorPanel");
   const previewPanel = document.getElementById("previewPanel");
-  let dragging = false;
-  let startX = 0;
-  let startEditorW = 0;
-  let startPreviewW = 0;
+  let dragging = false, startX = 0, startEW = 0, startPW = 0;
 
-  function startDrag(x) {
-    dragging = true;
-    divider.classList.add("active");
-    startX = x;
-    startEditorW = editorPanel.offsetWidth;
-    startPreviewW = previewPanel.offsetWidth;
-    document.body.style.cursor = "col-resize";
-    document.body.style.userSelect = "none";
-  }
-  function moveDrag(x) {
-    if (!dragging) return;
-    const dx = x - startX;
-    const totalW = startEditorW + startPreviewW;
-    let newEditorW = startEditorW + dx;
-    let newPreviewW = startPreviewW - dx;
-    if (newEditorW < 200) { newEditorW = 200; newPreviewW = totalW - 200; }
-    if (newPreviewW < 200) { newPreviewW = 200; newEditorW = totalW - 200; }
-    editorPanel.style.flex = `${newEditorW / totalW * 100}`;
-    previewPanel.style.flex = `${newPreviewW / totalW * 100}`;
-  }
-  function endDrag() {
-    if (!dragging) return;
-    dragging = false;
-    divider.classList.remove("active");
-    document.body.style.cursor = "";
-    document.body.style.userSelect = "";
-  }
+  function start(x) { dragging = true; divider.classList.add("active"); startX = x; startEW = editorPanel.offsetWidth; startPW = previewPanel.offsetWidth; document.body.style.cursor = "col-resize"; document.body.style.userSelect = "none"; }
+  function move(x) { if (!dragging) return; const dx = x - startX; const total = startEW + startPW; let ew = Math.max(200, Math.min(total - 200, startEW + dx)); editorPanel.style.flex = `${ew / total * 100}`; previewPanel.style.flex = `${(total - ew) / total * 100}`; }
+  function end() { if (!dragging) return; dragging = false; divider.classList.remove("active"); document.body.style.cursor = ""; document.body.style.userSelect = ""; }
 
-  divider.addEventListener("mousedown", (e) => { startDrag(e.clientX); e.preventDefault(); });
-  document.addEventListener("mousemove", (e) => moveDrag(e.clientX));
-  document.addEventListener("mouseup", endDrag);
-  divider.addEventListener("touchstart", (e) => { startDrag(e.touches[0].clientX); e.preventDefault(); }, { passive: false });
-  document.addEventListener("touchmove", (e) => { if (dragging) moveDrag(e.touches[0].clientX); });
-  document.addEventListener("touchend", endDrag);
+  divider.addEventListener("mousedown", (e) => { start(e.clientX); e.preventDefault(); });
+  document.addEventListener("mousemove", (e) => move(e.clientX));
+  document.addEventListener("mouseup", end);
+  divider.addEventListener("touchstart", (e) => { start(e.touches[0].clientX); e.preventDefault(); }, { passive: false });
+  document.addEventListener("touchmove", (e) => { if (dragging) move(e.touches[0].clientX); });
+  document.addEventListener("touchend", end);
 })();
 
-// -- Mobile tabs --
-function isMobile() { return window.innerWidth <= 768; }
+// Mobile tabs
+const isMobile = () => window.innerWidth <= 768;
 document.querySelectorAll(".mobile-tab").forEach((tab) => {
   tab.addEventListener("click", () => {
     if (!isMobile()) return;
     document.querySelectorAll(".mobile-tab").forEach((t) => t.classList.remove("active"));
     tab.classList.add("active");
-    const target = tab.dataset.tab;
-    const editorPanel = document.getElementById("editorPanel");
-    const previewPanel = document.getElementById("previewPanel");
-    editorPanel.style.display = target === "code" ? "flex" : "none";
-    previewPanel.style.display = target === "preview" ? "flex" : "none";
+    const t = tab.dataset.tab;
+    document.getElementById("editorPanel").style.display = t === "code" ? "flex" : "none";
+    document.getElementById("previewPanel").style.display = t === "preview" ? "flex" : "none";
   });
 });
 window.addEventListener("resize", () => {
   if (!isMobile()) {
     document.getElementById("editorPanel").style.display = "";
     document.getElementById("previewPanel").style.display = "";
-    document.getElementById("divider").style.display = "";
   }
 });
 
-// -- Events --
+// Events
 document.getElementById("generateBtn").addEventListener("click", generate);
 document.getElementById("publishBtn").addEventListener("click", publish);
 document.getElementById("copyBtn").addEventListener("click", copyCode);
 document.getElementById("newTabBtn").addEventListener("click", openNewTab);
-
 document.getElementById("exploreBtn").addEventListener("click", () => {
   document.getElementById("exploreModal").classList.add("open");
   loadExplore();
 });
-document.getElementById("modalClose").addEventListener("click", () => {
-  document.getElementById("exploreModal").classList.remove("open");
-});
-document.getElementById("exploreModal").addEventListener("click", (e) => {
-  if (e.target === e.currentTarget) e.currentTarget.classList.remove("open");
-});
-
-document.getElementById("prompt").addEventListener("keydown", (e) => {
-  if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
-    e.preventDefault();
-    generate();
-  }
-});
+document.getElementById("modalClose").addEventListener("click", () => document.getElementById("exploreModal").classList.remove("open"));
+document.getElementById("exploreModal").addEventListener("click", (e) => { if (e.target === e.currentTarget) e.currentTarget.classList.remove("open"); });
+document.getElementById("prompt").addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); generate(); } });
 </script>
 </body>
 </html>

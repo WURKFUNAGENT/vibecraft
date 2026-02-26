@@ -1,0 +1,114 @@
+{
+  "submissions": [
+    {
+      "id": "8a393a9d-3c81-4fe6-8a0c-6cc1a7a71d5b",
+      "content_text": "D",
+      "attachment_urls": [
+        "https://ik.imagekit.io/wurk/Screenshot_20260226-113431_aQ4EVHbiJP.jpg"
+      ],
+      "winner": 0
+    },
+    {
+      "id": "8fd6a456-4803-4887-8493-b86af0aa055d",
+      "content_text": "Which AI model produced better results? About the same\n- Live coding experience rating :6\n- UI design rating :5\n- Professional/enterprise-worthy rating: 4\n- Did publishing work? Yes\n- Any bugs or errors? None\n- Improvement suggestions: can get better \n- Would you pay to use this tool? No",
+      "attachment_urls": null,
+      "winner": 0
+    },
+    {
+      "id": "7815fe10-9a0d-429f-a7f2-63b573be96d7",
+      "content_text": "Done ✅",
+      "attachment_urls": [
+        "https://ik.imagekit.io/wurk/Screenshot_20260226-033551_r4ShLd2sH.png"
+      ],
+      "winner": 0
+    },
+    {
+      "id": "36f4e62c-579f-4d45-977c-1d57cb1baa96",
+      "content_text": "the app is not working, dont generating anythign",
+      "attachment_urls": null,
+      "winner": 0
+    },
+    {
+      "id": "d814951a-b00c-44ea-9ec1-d2c0c280f052",
+      "content_text": "1:About the same\n2: 8.5\n3:8\n4:7\n5:yes\n6:none\n7: keep it up\n8:yes",
+      "attachment_urls": null,
+      "winner": 0
+    },
+    {
+      "id": "a13127e8-d610-41d3-9795-497368719530",
+      "content_text": "- GPT-4o\n- 10\n- 10\n- yes\n- none\n- enough\n- yes",
+      "attachment_urls": null,
+      "winner": 0
+    },
+    {
+      "id": "d55abe79-778c-4f6b-ad4f-0198461d87e2",
+      "content_text": "Which AI model produced better results? (GPT-4o / Kimi K2.5 / About the same):Kimi K2.5 \nLive coding experience rating (1-10, where 10 = amazing): 3\nUI design rating (1-10, where 10 = beautiful): 5\nProfessional/enterprise-worthy rating (1-10, where 10 = very professional): 2\nDid publishing work? (yes/no): No\nAny bugs or errors? (describe or \"none\"): \"Recently Published\" stuck on \"Loading...\"\nImprovement suggestions: Fix loading issue, ensure core functionality works\nWould you pay to use this tool? (yes/no): No",
+      "attachment_urls": null,
+      "winner": 0
+    },
+    {
+      "id": "884ed292-dc7d-4a3e-8460-f506586211ef",
+      "content_text": "gpt-4o\n9 amazing\n9 beautiful\n9 professional\nyes\nno bugs\ni dont have\n50-50",
+      "attachment_urls": null,
+      "winner": 0
+    },
+    {
+      "id": "c86cf427-3fea-4719-9139-028d1d0767cf",
+      "content_text": "is a powerful tool for modern developers looking to bridge the gap between an idea and a functional web interface. It successfully blends advanced AI capabilities with a user-friendly environment",
+      "attachment_urls": [
+        "https://ik.imagekit.io/wurk/Screenshot_20260226-091933_zyYlFV1FS.jpg"
+      ],
+      "winner": 0
+    },
+    {
+      "id": "0cbb2b79-dfd0-4938-9f56-2b3a5e767d95",
+      "content_text": "Which AI model produced better results? (GPT-4o / Kimi K2.5 / About the same): GPT-4o\nLive coding experience rating (1-10, where 10 = amazing): 7/10\nUI design rating (1-10, where 10 = beautiful): 6/10\nProfessional/enterprise-worthy rating (1-10, where 10 = very professional): 6/10\nDid publishing work? (yes/no): yes\nAny bugs or errors? (describe or \"none\"): none\nImprovement suggestions: Improve UI polish, add clearer onboarding, and optimize responsiveness\nWould you pay to use this tool? (yes/no): no",
+      "attachment_urls": null,
+      "winner": 0
+    },
+    {
+      "id": "a2fbe697-fd82-4ca3-b449-3b3fef8e1ead",
+      "content_text": "Both\nUi design 6\nProfessional 9\nNo publishing work\nNo bugs\nImprovement perfect \nYes I will",
+      "attachment_urls": [
+        "https://ik.imagekit.io/wurk/IMG_8582_mEK9CfyZN.png"
+      ],
+      "winner": 0
+    }
+  ],
+  "scores": {
+    "live": [
+      6,
+      1,
+      1
+    ],
+    "ui": [
+      5,
+      1,
+      1,
+      6
+    ],
+    "pro": [
+      4,
+      1,
+      9,
+      1,
+      9
+    ],
+    "modelPref": {
+      "same": 3
+    },
+    "publishOk": 3,
+    "publishFail": 2,
+    "payYes": 2,
+    "payNo": 1,
+    "bugs": [
+      "\"Recently Published\" stuck on \"Loading...\""
+    ],
+    "suggestions": [
+      "can get better",
+      "Fix loading issue, ensure core functionality works",
+      "Improve UI polish, add clearer onboarding, and optimize responsiveness",
+      "Improvement perfect"
+    ]
+  }
+}
